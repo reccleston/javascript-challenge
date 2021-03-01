@@ -17,12 +17,13 @@ function handleFilterSightings() {
     // MAKE IT MORE ROBUST TO MORE OPTIONS OF DATEIMES (nothing entered, leading 0's)
     d3.selectAll('.ufo-row').remove();
     var date_input = d3.select('#datetime').node().value;
-    var subset = tableData.filter(ufo => ufo.datetime == date_input);
-    subset.forEach(showData);
+    tableData.filter(ufo => ufo.datetime == date_input).forEach(showData);
 };
 
 filter_button.on('click', handleFilterSightings);
 
 // Enter and filter in realtime with typing (for my version)
 var input_box = d3.select('#datetime');
+
+// have filter run with each key --> type aall matches 
 input_box.on('keyup', handleFilterSightings);

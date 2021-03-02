@@ -13,20 +13,20 @@ tableData.forEach(showData);
 var filter_button = d3.select('#filter-btn');
 
 // Enter + click event
-function handleFilterSightings() {
+function handleFilterSightingsDate() {
     // MAKE IT MORE ROBUST TO MORE OPTIONS OF DATEIMES (nothing entered, leading 0's)
     d3.selectAll('.ufo-row').remove();
     var date_input = d3.select('#datetime').node().value;
     tableData.filter(ufo => ufo.datetime == date_input).forEach(showData);
 };
 
-filter_button.on('click', handleFilterSightings);
+// filter_button.on('click', handleFilterSightingsDate);
 
 // Enter and filter in realtime with typing (for my version)
 var input_box = d3.select('#datetime');
 
 // have filter run with each key --> type all matches 
-input_box.on('keyup', handleFilterSightings);
+input_box.on('keyup', handleFilterSightingsDate);
 
 // Multifiltering 
 
@@ -66,4 +66,11 @@ dropdowns.each(function (drop, i) {
 
 // Listen for change event and filter table 
 
+// get current table 
+// filter tableData for val per filter
+// showData of subet table
+
+dropdowns.on('change', function () {
+    console.log(d3.select(this).node().value);
+});
   

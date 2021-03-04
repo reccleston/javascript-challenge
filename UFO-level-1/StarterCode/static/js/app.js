@@ -55,7 +55,6 @@ var relevant_keys = Object.keys(tableData[0]).slice(1,5);
 
 relevant_keys.forEach(key => unique_entries[key] = tableData.map(ufo => ufo[key]).unique());
 unique_entries = Object.entries(unique_entries);
-console.log(unique_entries);
 
 // Append unique options to select drop downs
 var dropdowns = d3.selectAll('.form-select');
@@ -67,10 +66,17 @@ dropdowns.each(function (drop, i) {
 // Listen for change event and filter table 
 
 // get current table 
-// filter tableData for val per filter
-// showData of subet table
-
+    // turn into  and obj similar to tableData
+    // filter 
+// filter tableData for val per filter DONE
+    // use d3.select(this) -->
+// showData of subet table DONE
 dropdowns.on('change', function () {
-    console.log(d3.select(this).node().value);
+    var curr_table = d3.selectAll('.ufo-row');
+    console.log(curr_table);
+    d3.selectAll('.ufo-row').remove();
+    var filter_value  = d3.select(this).node().value;
+    var key_to_filter_on = d3.select(this).select('option').node().value.toLowerCase();
+    tableData.filter(ufo => ufo[key_to_filter_on] == filter_value).forEach(showData);
 });
   

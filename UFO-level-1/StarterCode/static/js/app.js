@@ -89,7 +89,7 @@ Array.prototype.toObject = function () {
 };
 
 function getCurrentTable () {
-        // Getting current table to filter 
+    // Getting current table to filter 
     var temp_curr_table_arry = [];
     var curr_table = d3.selectAll('.ufo-row');
     // Extracting rows
@@ -110,17 +110,41 @@ function getCurrentTable () {
 
 };
 
+function getFilters() {
+    var filter = [];
+
+    // Object.keys(filter).forEach(function (key, i) {
+    //     filter[key] = d3.select(this).node().value;
+    // });
+
+    // console.log(filter);
+    dropdowns.each(function (dd, i) {
+        filter.push(d3.select(this).node().value);
+    });
+    console.log(filter);
+};
+
+// how to make this recursive 
 function handleFilters() {
-  
     var temp_curr_table_arry = getCurrentTable();
     d3.selectAll('.ufo-row').remove();
-    console.log(temp_curr_table_arry);
+    // console.log(temp_curr_table_arry);
     var filter_value  = d3.select(this).node().value;
     var key_to_filter_on = d3.select(this).select('option').node().value.toLowerCase();
     // temp_curr_table_arry.filter(ufo => ufo[key_to_filter_on] == filter_value).forEach(showData);
 
     if (temp_curr_table_arry.length == 0){
-        tableData.filter(ufo => ufo[key_to_filter_on] == filter_value).forEach(showData);
+        var filter = getFilters();
+        console.log(filter);
+        // tableData.filter(function(item) {
+        //     for (var key in filter) {
+        //       if (item[key] === undefined || item[key] != filter[key])
+        //         return false;
+        //     }
+        //     return true;
+        //   }).forEach(showData);
+          
+        // tableData.filter(ufo => ufo[key_to_filter_on] == filter_value).forEach(showData);
     } else {
         temp_curr_table_arry.filter(ufo => ufo[key_to_filter_on] == filter_value).forEach(showData);
     };

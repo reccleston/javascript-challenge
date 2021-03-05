@@ -10,24 +10,29 @@ function showData (ufo) {
 tableData.forEach(showData);
 
 // Table filter by date 
-// var filter_button = d3.select('#filter-btn');
+var filter_button = d3.select('#filter-btn');
 
 // Enter + click event
 function handleFilterSightingsDate() {
-    // MAKE IT MORE ROBUST TO MORE OPTIONS OF DATEIMES (nothing entered, leading 0's)
     var temp_curr_table_arry = getCurrentTable();
-    d3.selectAll('.ufo-row').remove();
     var date_input = d3.select('#datetime').node().value;
+    // MAKE IT MORE ROBUST TO MORE OPTIONS OF DATEIMES (nothing entered, leading 0's)
+    d3.selectAll('.ufo-row').remove();
+
+    if (temp_curr_table_arry.length == tableData.length) {
+        var date_input = d3.select('#datetime').node().value;
+        tableData.filter(ufo => ufo.datetime == date_input).forEach(showData);
+    } 
     temp_curr_table_arry.filter(ufo => ufo.datetime == date_input).forEach(showData);
 };
 
-// filter_button.on('click', handleFilterSightingsDate);
+filter_button.on('click', handleFilterSightingsDate);
 
 // Enter and filter in realtime with typing (for my version)
-var input_box = d3.select('#datetime');
+// var input_box = d3.select('#datetime');
 
 // have filter run with each key --> type all matches 
-input_box.on('change', handleFilterSightingsDate);
+// input_box.on('submit', handleFilterSightingsDate);
 
 // Multifiltering 
 
@@ -110,19 +115,25 @@ function getCurrentTable () {
 
 };
 
-function getFilters() {
-    var filter = [];
+// function getFilters() {
+//     var curr_filters = [];
 
-    // Object.keys(filter).forEach(function (key, i) {
-    //     filter[key] = d3.select(this).node().value;
-    // });
+//     // Object.keys(curr_filters).forEach(function (key, i) {
+//     //     curr_filters[key] = d3.select(this).node().value;
+//     // });
 
-    // console.log(filter);
-    dropdowns.each(function (dd, i) {
-        filter.push(d3.select(this).node().value);
-    });
-    console.log(filter);
-};
+//     // console.log(curr_filters);
+//     dropdowns.each(function (dd, i) {
+//         curr_filters.push(d3.select(this).node().value);
+//     });
+//     curr_filters = {
+//         city: curr_filters[0],
+//         state: curr_filters[1],
+//         country: curr_filters[2],
+//         shape: curr_filters[3]
+//     };
+//     return curr_filters;
+// };
 
 // how to make this recursive 
 function handleFilters() {
@@ -133,26 +144,37 @@ function handleFilters() {
     var key_to_filter_on = d3.select(this).select('option').node().value.toLowerCase();
     // temp_curr_table_arry.filter(ufo => ufo[key_to_filter_on] == filter_value).forEach(showData);
 
-    if (temp_curr_table_arry.length == 0){
-        var filter = getFilters();
-        console.log(filter);
-        // tableData.filter(function(item) {
-        //     for (var key in filter) {
-        //       if (item[key] === undefined || item[key] != filter[key])
-        //         return false;
-        //     }
-        //     return true;
-        //   }).forEach(showData);
+    // if (temp_curr_table_arry.length == 0){
+    //     var curr_filters = getFilters();
+    //     console.log(curr_filters);
+    //     tableData.filter(function(item) {
+    //         for (var key in curr_filters) {
+    //           if (item[key] === undefined || item[key] != curr_filters[key])
+    //             return false;
+    //         }
+    //         return true;
+    //       }).forEach(showData);
           
         // tableData.filter(ufo => ufo[key_to_filter_on] == filter_value).forEach(showData);
-    } else {
-        temp_curr_table_arry.filter(ufo => ufo[key_to_filter_on] == filter_value).forEach(showData);
-    };
+    // } else {
+    //     temp_curr_table_arry.filter(ufo => ufo[key_to_filter_on] == filter_value).forEach(showData);
+    // };
+    temp_curr_table_arry.filter(ufo => ufo[key_to_filter_on] == filter_value).forEach(showData);
+
 };
 
 dropdowns.on('change', handleFilters);
 
+var reset_button = d3.select('#clear-filter-btn');
 
+reset_button.on('click', function() {
+    dropdowns.each(function (d, i) {
+        var dropdown = d3.select(this);
+        dropdown.node().value = dropdown.select('option').node().value;
+        d3.selectAll('.ufo-row').remove();
+        tableData.forEach(showData);
+    });
+});
 // BUGS:
     // fix multifiltering
         // if nothing exists in the intersection of filters --> run filter functions on tableData 

@@ -223,3 +223,11 @@ select {
     opacity: 1;
   }
 }
+
+button.btn-md {
+  color:  #8e979f;
+  border-radius: 3px;
+  margin: 0 auto;
+  margin-bottom: 15px;;
+  display: block;
+}

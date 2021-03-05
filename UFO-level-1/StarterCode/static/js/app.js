@@ -12,9 +12,11 @@ tableData.forEach(showData);
 
 // Table filter by date 
 var filter_button = d3.select('#filter-btn');
+var date_input_box = d3.select('form');
 
 // Enter + click event
 function handleFilterSightingsDate() {
+    d3.event.preventDefault();
     var temp_curr_table_arry = getCurrentTable();
     var date_input = d3.select('#datetime').node().value;
 
@@ -29,6 +31,7 @@ function handleFilterSightingsDate() {
 };
 
 filter_button.on('click', handleFilterSightingsDate);
+date_input_box.on('submit', handleFilterSightingsDate);
 
 // Populating Dropdowns 
 // getting unique values in cols

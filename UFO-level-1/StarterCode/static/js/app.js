@@ -111,9 +111,8 @@ function handleFilters() {
 
 dropdowns.on('change', handleFilters);
 
-var reset_button = d3.select('#clear-filter-btn');
-
-reset_button.on('click', function() {
+// Clear filters 
+var reset_button = d3.select('#clear-filter-btn').on('click', function() {
     dropdowns.each(function (d, i) {
         var dropdown = d3.select(this);
         dropdown.node().value = dropdown.select('option').node().value;
